@@ -67,12 +67,12 @@ Based on this data, I will use 256 as the block size for the implementation comp
 
 ### Write-up: Performance Analysis
 
-> CPU implementation:
+#### CPU implementation:
 Shows a rather linear upwards trend in compute time when increasing array sizes. This is to be expected since our implementation is sequential, and O(n) in runtime and work.
 The CPU implementation is faster for smaller arrays, likely because of compiler optimizations on our direct CPU code and the lack of GPU layer indirections - but it quickly gets out-performed with increasingly larger array sizes and is far not as scalable as the GPU implementations are.
-> Naive and Work-efficient implementation:
+#### Naive and Work-efficient implementation:
 Both show a slight upwards trend but remain rather consistent for smaller array sizes. notably, Naive starts struggling when array sizes exceed a certain threshold while work-efficient maintains a slow upwards trend. This is also to be expected since the whole point of using our work-efficient algorithm is to improve the theoretical amount of work from O(n log n) to O(n).
-> Thrust implementation:
+#### Thrust implementation:
 Has the most inconsistent runtime but overall out performs the other methods. even without looking at the code, we can still identify that there seem to be additional CudaMalloc and CudaMemcpy calls happing inside of the thrust implementation of exclusive_scan, suggesting that there is another layer of indirection hidden in the function we call. This technically makes it an unfair comparison since we always exclude all of these calls in our runtime calculations, and also suggests that there is a MemoryIO bottle neck in our measured data for the thrust implementation.
 
 ## Test Program Output
