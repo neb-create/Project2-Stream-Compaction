@@ -19,17 +19,17 @@ namespace StreamCompaction {
          */
         void scan(int n, int *odata, const int *idata) {
 
-   //         thrust::host_vector<int> hv_in(idata, idata + n);
-   //         thrust::device_vector<int> dv_in = hv_in;
-   //         thrust::device_vector<int> dv_out(n);
+            thrust::host_vector<int> hv_in(idata, idata + n);
+            thrust::device_vector<int> dv_in = hv_in;
+            thrust::device_vector<int> dv_out(n);
 
-   //         timer().startGpuTimer();
+            timer().startGpuTimer();
 
-   //         Thrust::scan(dv_in.begin(), dv_in.end(), dv_out.begin());
+            thrust::exclusive_scan(dv_in.begin(), dv_in.end(), dv_out.begin());
 
-   //         timer().endGpuTimer();
+            timer().endGpuTimer();
 
-   //         thrust::copy(dv_out.begin(), dv_out.end(), odata);
+            thrust::copy(dv_out.begin(), dv_out.end(), odata);
         }
     }
 }

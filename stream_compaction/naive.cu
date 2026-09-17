@@ -46,7 +46,7 @@ namespace StreamCompaction {
             int iterations = ilog2ceil(n);
 
             // Set up block grid size
-            int blockSize = 128;
+            int blockSize = BLOCKSIZE;
             dim3 fullBlocksPerGrid((n + blockSize - 1) / blockSize);
 
             for (int d = 0; d < iterations; d++) {
