@@ -2,7 +2,7 @@
 Project 2 - Stream Compaction**
 
 * Nico Kong
-   [LinkedIn](https://www.linkedin.com/in/nicola-kong/), [Email]: nebfinn@gmail.com
+   [LinkedIn](https://www.linkedin.com/in/nicola-kong/), Email: nebfinn@gmail.com
 * Tested on: Windows 11, AMD Ryzen AI 9 HX 370 @ 2.0GHz 32GB, RTX 4060 8GB (Personal Laptop)
 
 ## Project Description
@@ -38,7 +38,7 @@ target_compile_options(stream_compaction PRIVATE "$<$<COMPILE_LANGUAGE:CUDA>:-Xc
 
 I tested different block sizes on an array with ~1'000'000 entries and got the following results:
 
-![](img/graph_blocksize.png)
+<img src="img/graph_blocksize.png" width="600">
 
 | Block Size | Naive (ms) | Work-Efficient (ms) |
 |---|---|---|
@@ -54,7 +54,7 @@ Best on this data, I will use 256 as the block size for the implementation compa
 
 TODO
 
-![](img/graph_scan_comparison.png)
+<img src="img/graph_arraysize.png" width="600">
 
 | Array Size | CPU (ms) | Naive (ms) | Work-Efficient (ms) | Thrust (ms) |
 |---|---|---|---|---|
