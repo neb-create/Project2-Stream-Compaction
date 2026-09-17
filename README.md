@@ -36,7 +36,7 @@ target_compile_options(stream_compaction PRIVATE "$<$<COMPILE_LANGUAGE:CUDA>:-Xc
 
 ### Block Size Optimization
 
-I tested different block sizes on an array with ~1'000'000 entries and got the following results:
+I tested different block sizes on an array with 2^20 entries and got the following results:
 
 <img src="img/graph_blocksize.png" width="600">
 
@@ -48,11 +48,9 @@ I tested different block sizes on an array with ~1'000'000 entries and got the f
 | 256  | 0.309792 | 0.418592 |
 | 512  | 0.415904 | 0.647776 |
 
-Best on this data, I will use 256 as the block size for the implementation comparison below.
+Based on this data, I will use 256 as the block size for the implementation comparison below.
 
 ### Comparison of Implementations
-
-TODO
 
 <img src="img/graph_arraysize.png" width="600">
 
@@ -69,7 +67,13 @@ TODO
 
 ### Write-up: Performance Analysis
 
-TODO
+> CPU implementation:
+Shows a rather linear upwards trend in compute time when increasing array sizes. This is to be expected since our implementation is sequential, and O(n) in runtime and work.
+The CPU implementation is faster for smaller arrays, likely because of compiler optimizations on our direct CPU code and the lack of GPU layer indirections - but it quickly gets out-performed with increasingly larger array sizes and is far not as scalable as the GPU implementations are.
+> Naive and Work-efficient implementation:
+Both show a slight upwards trend but remain rather consistent for smaller array sizes. notably, Naive starts struggling when array sizes exceed a certain threshold while work-efficient maintains a slow upwards trend. This is also to be expected since the whole point of using our work-efficient algorithm is to improve the theoretical amount of work from O(n log n) to O(n).
+> Thrust implementation:
+Has the most inconsistent runtime but overall out performs the other methods. even without looking at the code, we can still identify that there seem to be additional CudaMalloc and CudaMemcpy calls happing inside of the thrust implementation of exclusive_scan, suggesting that there is another layer of indirection hidden in the function we call. This technically makes it an unfair comparison since we always exclude all of these calls in our runtime calculations, and also suggests that there is a MemoryIO bottle neck in our measured data for the thrust implementation.
 
 ## Test Program Output
 
